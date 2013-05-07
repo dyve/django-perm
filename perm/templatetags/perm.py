@@ -58,7 +58,6 @@ class PermNode(Node):
         self.states = states
         self.perm = perm
         self.obj_or_model = obj_or_model
-        print states
 
     def render(self, context):
         perm = handle_var(self.perm, context)
