@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>
+            {% block head_title %}HTTP {{ http_status_code }} {{ http_status_text }}{% endblock %}
+        </title>
+    </head>
+    <body>
+        <h1>{% block body_title %}HTTP {{ http_status_code }} {{ http_status_text }}{% endblock %}</h1>
+        {% block body_content %}{{ message }}{% endblock %}
+    </body>
+</html>

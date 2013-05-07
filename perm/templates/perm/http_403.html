@@ -1,0 +1,5 @@
+{% extends "perm/http.html" %}
+
+{% block body_content %}
+    <p>{{ message|default:"You are not allowed to do this." }}</p>
+{% endblock %}

@@ -1,4 +1,14 @@
 *.log
 *.pot
 *.pyc
+*.swp
+.sass-cache
+.idea*
+.DS_Store
 local_settings.py
+doc-src/_build/*
+doc/*
+MANIFEST
+dist/
+*.egg-info/
+build/
