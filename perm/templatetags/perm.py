@@ -62,13 +62,16 @@ class PermNode(Node):
     def render(self, context):
         perm = handle_var(self.perm, context)
         model = handle_var(self.obj_or_model, context)
+
         if not isinstance(model, Model):
             model = get_model(model)
+
         if context['request'].user.has_perm(perm, model):
             index = 'ifperm'
         else:
             index = 'else'
+
         try:
             return self.states[index].render(context)
-        except IndexError:
+        except KeyError:
             return ''

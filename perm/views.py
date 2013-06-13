@@ -8,7 +8,10 @@ class PermSingleObjectMixin(object):
     perm = None
 
     def get_object(self, *args, **kwargs):
-        obj = super(PermSingleObjectMixin, self).get_object(*args, **kwargs)
+        if isinstance(self, CreateView):
+            obj = self.model
+        else:
+            obj = super(PermSingleObjectMixin, self).get_object(*args, **kwargs)
         if self.perm and not self.request.user.has_perm(self.perm, obj):
             raise HttpForbidden()
         return obj
