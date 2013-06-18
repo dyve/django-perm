@@ -1,11 +1,15 @@
-from django.views.generic import DetailView, UpdateView, CreateView
+from django.views.generic import DetailView, UpdateView, CreateView, ListView
 
 from .http import HttpForbidden
+from perm.shortcuts import get_perm_queryset
 
 
-class PermSingleObjectMixin(object):
+class PermMixin(object):
 
     perm = None
+
+
+class PermSingleObjectMixin(PermMixin):
 
     def get_object(self, *args, **kwargs):
         if isinstance(self, CreateView):
@@ -15,6 +19,19 @@ class PermSingleObjectMixin(object):
         if self.perm and not self.request.user.has_perm(self.perm, obj):
             raise HttpForbidden()
         return obj
+
+
+class PermMultipleObjectMixin(PermMixin):
+
+    def get_queryset(self, *args, **kwargs):
+        qs = get_perm_queryset(self.model, self.request.user, self.perm)
+        try:
+            super_qs = super(PermMultipleObjectMixin, self).get_queryset(*args, **kwargs)
+        except AttributeError:
+            super_qs = None
+        else:
+            qs = qs.filter(pk__in=super_qs)
+        return qs
 
 
 class PermDetailView(PermSingleObjectMixin, DetailView):
@@ -30,3 +47,7 @@ class PermUpdateView(PermSingleObjectMixin, UpdateView):
 class PermCreateView(PermSingleObjectMixin, CreateView):
 
     perm = 'create'
+
+
+class PermListView(PermMultipleObjectMixin, ListView):
+    perm = 'list'

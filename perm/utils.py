@@ -6,8 +6,7 @@ from django.utils.translation import ugettext as _
 from perm.exceptions import PermAppException
 
 
-
-def get_model(model, raise_exception = False):
+def get_model(model, raise_exception=False):
     if isinstance(model, basestring):
         app_name, model_name = model.split('.')
         model = django_get_model(app_name, model_name)
