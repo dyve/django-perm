@@ -4,6 +4,7 @@ import re
 
 from django.db.models import Model
 from django.template import Library, Node, TemplateSyntaxError, Variable, VariableDoesNotExist
+from django.utils.translation import ugettext_lazy
 
 from ..utils import get_model
 
@@ -36,7 +37,7 @@ def ifperm(parser, token):
         except IndexError:
             obj_or_model = None
     except (ValueError, TypeError):
-        raise TemplateSyntaxError(_("'%(tag)s' tag takes two parameters") % {'tag': tag})
+        raise TemplateSyntaxError(ugettext_lazy("'%(tag)s' tag takes two parameters") % {'tag': tag})
 
     default_states = ['ifperm', 'else']
     end_tag = 'endifperm'
