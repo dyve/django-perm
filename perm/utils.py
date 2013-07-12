@@ -8,16 +8,30 @@ from perm.exceptions import PermAppException
 
 def get_model(model, raise_exception=False):
     if isinstance(model, basestring):
-        app_name, model_name = model.split('.')
-        model = django_get_model(app_name, model_name)
+        # If model is a string, find the appropriate model class
+        try:
+            app_name, model_name = model.split('.')
+        except ValueError:
+            model_class = None
+        else:
+            model_class = django_get_model(app_name, model_name)
+    else:
+        # Assume we have been given a model class or instance
+        model_class = model
+
+    # Test is this is an instance or subclass of Model
     try:
-        is_model = issubclass(model, Model)
+        is_model = issubclass(model_class, Model)
     except TypeError:
         is_model = False
+
+    # Handle failure
     if not is_model:
-        model = None
         if raise_exception:
             raise PermAppException(_('%(model)s is not a Django Model class.' % {
                 'model': model
             }))
-    return model
+        return None
+
+    # Return the result
+    return model_class

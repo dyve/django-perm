@@ -27,7 +27,7 @@ def handle_var(value, context):
 
 @register.tag
 def ifperm(parser, token):
-    # Separating the tag name from the "test" parameter.
+    # Separate tag name and parameters
     try:
         parts = token.split_contents()
         tag = parts[0]
@@ -65,7 +65,7 @@ class PermNode(Node):
         model = handle_var(self.obj_or_model, context)
 
         if not isinstance(model, Model):
-            model = get_model(model)
+            model = get_model(model, raise_exception=True)
 
         if context['request'].user.has_perm(perm, model):
             index = 'ifperm'
