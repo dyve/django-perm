@@ -1,36 +1,85 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import re
+import os
+import sys
+
 from setuptools import setup
 
-# Read version from file
-VERSION_FILE = 'perm/_version.py'
-version_text = open(VERSION_FILE, "rt").read()
-VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
-mo = re.search(VSRE, version_text, re.M)
-if mo:
-    version = mo.group(1)
-else:
-    raise RuntimeError("Unable to find version string in %s." % (VERSIONFILE,))
 
-# Setup
+name = 'django-perm'
+package = 'perm'
+description = 'Class based Django permissions for Django models.'
+url = 'https://github.com/dyve/django-perm'
+author = 'Dylan Verheul'
+author_email = 'dylan@dyve.net'
+license = 'Apache License 2.0'
+install_requires = []
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Utilities",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+]
+
+def get_version(package):
+    """
+    Return package version as listed in `__version__` in `init.py`.
+    """
+    init_py = open(os.path.join(package, '__init__.py')).read()
+    return re.search("^__version__ = ['\"]([^'\"]+)['\"]", init_py, re.MULTILINE).group(1)
+
+
+def get_packages(package):
+    """
+    Return root package and all sub-packages.
+    """
+    return [dirpath
+            for dirpath, dirnames, filenames in os.walk(package)
+            if os.path.exists(os.path.join(dirpath, '__init__.py'))]
+
+
+def get_package_data(package):
+    """
+    Return all files under the root package, that are not in a
+    package themselves.
+    """
+    walk = [(dirpath.replace(package + os.sep, '', 1), filenames)
+            for dirpath, dirnames, filenames in os.walk(package)
+            if not os.path.exists(os.path.join(dirpath, '__init__.py'))]
+
+    filepaths = []
+    for base, filenames in walk:
+        filepaths.extend([os.path.join(base, filename)
+                          for filename in filenames])
+    return {package: filepaths}
+
+
+if sys.argv[-1] == 'publish':
+    os.system("python setup.py sdist upload")
+    args = {'version': get_version(package)}
+    print "You probably want to also tag the version now:"
+    print "  git tag -a %(version)s -m 'version %(version)s'" % args
+    print "  git push --tags"
+    sys.exit()
+
+
 setup(
-    name='django-perm',
-    version=version,
-    url='https://github.com/dyve/django-perm',
-    author='Dylan Verheul',
-    author_email='dylan@dyve.net',
-    license='Apache License 2.0',
-    packages=['perm', 'perm.templatetags'],
-    include_package_data=True,
-    description='Class based Django permissions for Django models',
-    classifiers=[
-        "Development Status :: 4 - Beta",
-        "Intended Audience :: Developers",
-        "License :: OSI Approved :: Apache Software License",
-        "Programming Language :: Python",
-        "Operating System :: OS Independent",
-        "Topic :: Software Development :: Libraries",
-        "Topic :: Utilities",
-        "Environment :: Web Environment",
-        "Framework :: Django",
-    ],
+    name=name,
+    version=get_version(package),
+    url=url,
+    license=license,
+    description=description,
+    author=author,
+    author_email=author_email,
+    packages=get_packages(package),
+    package_data=get_package_data(package),
+    install_requires=install_requires,
+    classifiers=classifiers,
 )

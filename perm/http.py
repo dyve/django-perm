@@ -26,25 +26,21 @@ class HttpException(PermException):
         }
 
     def render_to_reponse(self, request):
-
         # Basic response
         response = render(request, self.get_templates(), self.get_context())
-
         # Set status code
         response.status_code = self.status_code
-
         # Add headers
         if self.headers:
             for k, v in self.headers.items():
                 response[k] = v
-
         # Augment response
         self.augment_response(response)
-
         # Return result
         return response
 
     def augment_response(self, response):
+        # Overwrite this to augment the response
         pass
 
 
