@@ -11,3 +11,4 @@ class UtilsTest(TestCase):
     def test_get_model(self):
         with self.assertRaises(PermAppException):
             get_model('does.NotExist', raise_exception=True)
+        self.assertEqual(None, get_model('does.NotExist', raise_exception=False))

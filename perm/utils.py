@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.db.models import Model, get_model as django_get_model
 from django.utils.translation import ugettext as _
 
-from perm.exceptions import PermAppException
+from .exceptions import PermAppException
 
 
 def get_model(model, raise_exception=False):
