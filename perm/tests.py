@@ -1,8 +1,8 @@
 from __future__ import unicode_literals
 
 from django.utils.unittest import TestCase
-from perm.exceptions import PermAppException
 
+from .exceptions import PermAppException
 from .utils import get_model
 
 
