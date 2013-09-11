@@ -84,7 +84,10 @@ class ModelPermissions(object):
         """
         Test to see if obj appears in get_perm_PERM_queryset()
         """
-        return self.get_queryset().filter(pk=self.obj.pk).exists()
+        try:
+            return self.get_queryset().filter(pk=self.obj.pk).exists()
+        except AttributeError:
+            return False
 
     def has_perm(self):
         """
@@ -112,5 +115,3 @@ def load_permissions():
 
 # Instantiate the singleton
 permissions_manager = ModelPermissionsManager()
-
-
