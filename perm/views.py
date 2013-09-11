@@ -1,4 +1,4 @@
-from django.views.generic import DetailView, UpdateView, CreateView, ListView
+from django.views.generic import DetailView, UpdateView, CreateView, ListView, DeleteView
 
 from .http import HttpForbidden
 from .shortcuts import get_perm_queryset
@@ -53,3 +53,7 @@ class PermCreateView(PermSingleObjectMixin, CreateView):
 
 class PermListView(PermMultipleObjectMixin, ListView):
     perm = 'list'
+
+
+class PermListView(PermSingleObjectMixin, DeleteView):
+    perm = 'delete'
