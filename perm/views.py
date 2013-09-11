@@ -55,5 +55,5 @@ class PermListView(PermMultipleObjectMixin, ListView):
     perm = 'list'
 
 
-class PermListView(PermSingleObjectMixin, DeleteView):
+class PermDeleteView(PermSingleObjectMixin, DeleteView):
     perm = 'delete'
