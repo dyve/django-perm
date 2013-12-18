@@ -12,7 +12,6 @@ class PermSingleObjectMixin(PermMixin):
     def dispatch(self, request, *args, **kwargs):
         if isinstance(self, CreateView):
             obj = self.model
-            print obj
             if self.perm and not self.request.user.has_perm(self.perm, obj):
                 raise HttpForbidden()
         return super(PermSingleObjectMixin, self).dispatch(request, *args, **kwargs)
