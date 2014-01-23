@@ -4,7 +4,7 @@ from django.db.models.query import EmptyQuerySet
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
-from perm.exceptions import PermAppException
+from perm.exceptions import PermAppException, PermQuerySetNotFound
 from perm.utils import get_model
 
 
@@ -55,19 +55,17 @@ class ModelPermissions(object):
         self.obj = obj
         self.perm = perm
 
-    def get_queryset(self, raise_exception=False):
+    def get_queryset(self):
         """
         Get method get_queryset_perm_PERM or return None
         """
         try:
             method = getattr(self, 'get_queryset_perm_%s' % self.perm)
         except AttributeError:
-            if raise_exception:
-                raise PermAppException(_('Permissions for %(model)s do not include queryset for %(perm)s.' % {
-                    'model': self.model,
-                    'perm': self.perm
-                }))
-            return EmptyQuerySet()
+            raise PermQuerySetNotFound(_('Permissions for %(model)s do not include queryset for %(perm)s.' % {
+                'model': self.model,
+                'perm': self.perm
+            }))
         return method()
 
     def _has_perm_using_method(self):
@@ -86,7 +84,7 @@ class ModelPermissions(object):
         """
         try:
             return self.get_queryset().filter(pk=self.obj.pk).exists()
-        except AttributeError:
+        except PermQuerySetNotFound:
             return False
 
     def has_perm(self):
