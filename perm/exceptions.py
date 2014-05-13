@@ -7,7 +7,7 @@ class PermException(Exception):
 
 class PermAppException(PermException):
     """
-    Something goes wrong withtin perm, but it it something that might happen because of they way the app works
+    Something goes wrong within perm, but it it something that might happen because of they way the app works
     """
     pass
 
