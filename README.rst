@@ -13,12 +13,15 @@ Installation
 2. In settings.py:
 
         # Add to INSTALLED_APPS
-
         'perm',
 
         # Add to AUTHENTICATION_BACKENDS
-
         'perm.backends.ModelPermissionBackend',
+
+3. In your main urls.py, at the end add:
+
+        # Load django-perm
+        urlpatterns += patterns('', url('^/perm/', include('perm.urls')))
 
 
 Usage
