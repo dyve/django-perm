@@ -4,6 +4,12 @@ History
 -------
 
 
+2.1.0 (2014-05-21)
+++++++++++++++++++
+
+* Must load via urls now, documented this in README
+
+
 2.0.2 (2014-05-21)
 ++++++++++++++++++
 
