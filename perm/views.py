@@ -1,6 +1,6 @@
+from django.core.exceptions import PermissionDenied
 from django.views.generic import DetailView, UpdateView, CreateView, ListView, DeleteView
 
-from .http import HttpForbidden
 from .shortcuts import get_perm_queryset
 
 
@@ -13,7 +13,7 @@ class PermSingleObjectMixin(PermMixin):
         if isinstance(self, CreateView):
             obj = self.model
             if self.perm and not self.request.user.has_perm(self.perm, obj):
-                raise HttpForbidden()
+                raise PermissionDenied()
         return super(PermSingleObjectMixin, self).dispatch(request, *args, **kwargs)
 
     def get_object(self, *args, **kwargs):
@@ -22,7 +22,7 @@ class PermSingleObjectMixin(PermMixin):
         else:
             obj = super(PermSingleObjectMixin, self).get_object(*args, **kwargs)
         if self.perm and not self.request.user.has_perm(self.perm, obj):
-            raise HttpForbidden()
+            raise PermissionDenied()
         return obj
 
 
@@ -32,7 +32,7 @@ class PermMultipleObjectMixin(PermMixin):
         try:
             super_qs = super(PermMultipleObjectMixin, self).get_queryset(*args, **kwargs)
         except AttributeError:
-            super_qs = None
+            pass
         else:
             qs = qs.filter(pk__in=super_qs)
         return qs
