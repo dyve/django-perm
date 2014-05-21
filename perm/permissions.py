@@ -12,7 +12,6 @@ class ModelPermissionsManager(object):
     """
     Singleton object to hold ModelPermissions classes for objects
     """
-
     _registry = {}
 
     def register(self, model, permissions_class):
