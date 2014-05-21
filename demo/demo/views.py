@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
+from django.http import Http404
 
 from django.views.generic.base import TemplateView
 
@@ -20,7 +21,7 @@ class ExceptionView(HomeView):
 
 
 class ObjectDoesNotExistView(ExceptionView):
-    exception_class = ObjectDoesNotExist
+    exception_class = Http404
 
 
 class PermissionDeniedView(ExceptionView):

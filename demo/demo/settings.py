@@ -11,7 +11,7 @@ APP_FOLDER = os.path.abspath(os.path.join(PROJECT_ROOT, '..', 'perm'))
 if APP_FOLDER not in sys.path:
     sys.path.insert(0, APP_FOLDER)
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = ()
