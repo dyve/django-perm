@@ -6,11 +6,11 @@ Simple class based permissions.
 
 Installation
 ------------
-1. Install using pip:
+1. Install using pip::
 
         pip install django-perm
 
-2. In settings.py:
+2. In settings.py::
 
         # Add to INSTALLED_APPS
         'perm',
@@ -18,7 +18,7 @@ Installation
         # Add to AUTHENTICATION_BACKENDS
         'perm.backends.ModelPermissionBackend',
 
-3. In your main urls.py, at the end add:
+3. In your main urls.py, at the end add::
 
         # Load django-perm
         urlpatterns += patterns('', url('^/perm/', include('perm.urls')))
@@ -27,7 +27,7 @@ Installation
 Usage
 -----
 
-In your Django app, create a file ``permissions.py``. Its content might look like this:
+In your Django app, create a file ``permissions.py``. Its content might look like this::
 
     from perm.decorators import permissions_for
     from perm.permissions import ModelPermissions
