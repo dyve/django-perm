@@ -4,6 +4,8 @@ from __future__ import unicode_literals
 import os
 import sys
 
+import django.conf.global_settings as DEFAULT_SETTINGS
+
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 # Include APP_FOLDER in path
@@ -129,6 +131,12 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'perm',
     'demo',
+)
+
+# Authentication, install django-perm
+AUTHENTICATION_BACKENDS = DEFAULT_SETTINGS.AUTHENTICATION_BACKENDS + (
+    # Object permissions using perm
+    'perm.backends.ModelPermissionBackend',
 )
 
 # A sample logging configuration. The only tangible logging

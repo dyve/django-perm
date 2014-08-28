@@ -36,7 +36,7 @@ In your Django app, create a file ``permissions.py``. Its content might look lik
 
 
     @permissions_for(Foo)
-    class ProjectPermissions(FooPermissions):
+    class FooPermissions(ModelPermissions):
 
         def has_perm_wiggle(self):
             # Let's ask the Foo object
