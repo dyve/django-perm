@@ -90,8 +90,12 @@ class PermissionsTest(TestCase):
 
     def test_template(self):
         def _test_template(user, perm):
-            template = '{{% perm "{perm}" person %}}'.format(perm=perm)
-            return render_template(template, request={'user': user}, person=self.person)
+            template1 = '{{% perm "{perm}" person %}}'.format(perm=perm)
+            template2 = '{{% perm "{perm}" person as var %}}{{{{ var }}}}'.format(perm=perm)
+            result1 = render_template(template1, request={'user': user}, person=self.person)
+            result2 = render_template(template2, request={'user': user}, person=self.person)
+            self.assertEqual(result1, result2)
+            return result1
         self.assertEqual('alpha centauri', render_template('{{ person }}', request={'user': None}, person=self.person))
         self.assertEqual('True', _test_template(self.superuser, 'does_not_exist'))
         self.assertEqual('False', _test_template(self.staff_user, 'does_not_exist'))
