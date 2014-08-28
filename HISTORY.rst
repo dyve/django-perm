@@ -4,6 +4,12 @@ History
 -------
 
 
+2.2.0 (2014-08-28)
+++++++++++++++++++
+
+* New `{% perm ... %}` template tag with optional `as varname` to write to context
+
+
 2.1.0 (2014-05-21)
 ++++++++++++++++++
 
