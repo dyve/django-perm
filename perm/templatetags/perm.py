@@ -37,8 +37,8 @@ def handle_perm(parser, token):
         num_parts -= 2
     else:
         context_var = None
-    if num_parts > 2:
-        raise TemplateSyntaxError(ugettext_lazy("Too many arguments for '%(tag)s' tag") % {'tag': tag})
+    if num_parts > 3:
+        raise TemplateSyntaxError(ugettext_lazy("Too many arguments for '%(tag)s' tag (%(num)s)") % {'tag': tag, 'num': num_parts})
     try:
         perm = parts[1]
     except IndexError:
@@ -98,7 +98,7 @@ class PermNode(Node):
         self.context_var = context_var
 
     def render(self, context):
-        result = get_permission('perm', self.perm, self.obj_or_model)
+        result = get_permission('perm', self.perm, self.obj_or_model, context)
         if self.context_var:
             context[self.context_var] = result
             return ''
@@ -112,7 +112,7 @@ class IfPermNode(Node):
         self.obj_or_model = obj_or_model
 
     def render(self, context):
-        result = get_permission('perm', self.perm, self.obj_or_model)
+        result = get_permission('perm', self.perm, self.obj_or_model, context)
         if result:
             index = 'ifperm'
         else:

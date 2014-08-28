@@ -42,7 +42,7 @@ In your Django app, create a file ``permissions.py``. Its content might look lik
             # Let's ask the Foo object
             return self.obj.user_can_wiggle(self.user)
 
-        def get_perm_change_queryset(self):
+        def get_queryset_perm_change(self):
             # Foo objects can be changed by their owners
             return Foo.objects.filter(user=self.user)
 

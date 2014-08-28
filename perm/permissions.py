@@ -82,7 +82,7 @@ class ModelPermissions(object):
         """
         try:
             return self.get_queryset().filter(pk=self.obj.pk).exists()
-        except PermQuerySetNotFound:
+        except (AttributeError, PermQuerySetNotFound):
             return False
 
     def has_perm(self):
