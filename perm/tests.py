@@ -43,6 +43,16 @@ class PersonPermissions(ModelPermissions):
 load_permissions()
 
 
+class MockRequest(object):
+    pass
+
+
+def get_request_for_user(user):
+    request = MockRequest()
+    request.user = user
+    return request
+
+
 def render_template(template, **context_args):
     """
     Create a template that loads perm. Result is stripped of whitespace.
@@ -92,12 +102,13 @@ class PermissionsTest(TestCase):
         self.assertEqual(False, self.normal_user.has_perm(perm, Person))
         self.assertEqual(True, self.normal_user.has_perm(perm, self.person))
 
-    def test_template(self):
+    def test_template_tag_perm(self):
         def _test_template(user, perm):
+            request = get_request_for_user(user)
             template1 = '{{% perm "{perm}" person %}}'.format(perm=perm)
             template2 = '{{% perm "{perm}" person as var %}}{{{{ var }}}}'.format(perm=perm)
-            result1 = render_template(template1, request={'user': user}, person=self.person)
-            result2 = render_template(template2, request={'user': user}, person=self.person)
+            result1 = render_template(template1, request=request, person=self.person)
+            result2 = render_template(template2, request=request, person=self.person)
             self.assertEqual(result1, result2)
             return result1
         self.assertEqual('alpha centauri', render_template('{{ person }}', request={'user': None}, person=self.person))
@@ -105,6 +116,18 @@ class PermissionsTest(TestCase):
         self.assertEqual('False', _test_template(self.staff_user, 'does_not_exist'))
         self.assertEqual('True', _test_template(self.superuser, 'gamma'))
         self.assertEqual('False', _test_template(self.staff_user, 'gamma'))
+        self.assertEqual('True', _test_template(self.normal_user, 'gamma'))
+
+    def test_template_tag_ifperm(self):
+        def _test_template(user, perm):
+            template1 = '{{% ifperm "{perm}" person %}}True{{% endifperm %}}'.format(perm=perm)
+            request = get_request_for_user(user)
+            result1 = render_template(template1, request=request, person=self.person)
+            return result1
+        self.assertEqual('True', _test_template(self.superuser, 'does_not_exist'))
+        self.assertEqual('', _test_template(self.staff_user, 'does_not_exist'))
+        self.assertEqual('True', _test_template(self.superuser, 'gamma'))
+        self.assertEqual('', _test_template(self.staff_user, 'gamma'))
         self.assertEqual('True', _test_template(self.normal_user, 'gamma'))
 
     def tearDown(self):
