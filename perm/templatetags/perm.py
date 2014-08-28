@@ -4,7 +4,6 @@ import re
 
 from django.db.models import Model
 from django.template import Library, Node, TemplateSyntaxError, Variable, VariableDoesNotExist
-from django.utils.translation import ugettext_lazy
 
 from ..utils import get_model
 
@@ -38,11 +37,11 @@ def handle_perm(parser, token):
     else:
         context_var = None
     if num_parts > 3:
-        raise TemplateSyntaxError(ugettext_lazy("Too many arguments for '%(tag)s' tag (%(num)s)") % {'tag': tag, 'num': num_parts})
+        raise TemplateSyntaxError("Too many arguments for '{tag}' tag ({num})".format(tag=tag, num=num_parts))
     try:
         perm = parts[1]
     except IndexError:
-        raise TemplateSyntaxError(ugettext_lazy("'%(tag)s' tag takes at least one parameter") % {'tag': tag})
+        raise TemplateSyntaxError("Tag '{tag}' takes at least one parameter".format(tag=tag))
     try:
         obj_or_model = parts[2]
     except IndexError:
@@ -58,11 +57,11 @@ def get_permission(tag, perm, obj_or_model, context):
     try:
         request = context['request']
     except IndexError:
-        raise TemplateSyntaxError(ugettext_lazy("'%(tag)' tag requires request context") % {'tag': tag})
+        raise TemplateSyntaxError("Tag '%(tag)' requires request context".format(tag=tag))
     try:
-        user = request['user']
-    except IndexError:
-        raise TemplateSyntaxError(ugettext_lazy("'%(tag)' tag requires 'user' in request context") % {'tag': tag})
+        user = request.user
+    except AttributeError:
+        raise TemplateSyntaxError("Tag '%(tag)' requires attribute 'user' in request context".format(tag=tag))
     if model:
         return user.has_perm(perm, model)
     return user.has_perm(perm)
