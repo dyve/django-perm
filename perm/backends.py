@@ -23,17 +23,19 @@ class ModelPermissionBackend(object):
         if not user_obj or not user_obj.is_active:
             return False
 
-        # If obj is an instance, get the model class
+        # If obj is a Model instance, get the model class
         if not obj:
             obj = None
             model = None
         elif isinstance(obj, Model):
             model = obj.__class__
-        elif issubclass(obj, Model):
-            model = obj
-            obj = None
         else:
-            raise PermAppException(_('Unexpected value for model.'))
+            try:
+                if issubclass(obj, Model):
+                    model = obj
+                    obj = None
+            except TypeError:
+                return False
 
         # If permission is in dot notation,
         perm_parts = perm.split('.')

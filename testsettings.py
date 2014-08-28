@@ -24,4 +24,6 @@ AUTHENTICATION_BACKENDS = DEFAULT_SETTINGS.AUTHENTICATION_BACKENDS + (
     'perm.backends.ModelPermissionBackend',
 )
 
+# Django < 1.6 complains if this is not set
 ROOT_URLCONF = 'perm.tests.urls'
+SITE_ID = 1
