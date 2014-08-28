@@ -23,3 +23,5 @@ AUTHENTICATION_BACKENDS = DEFAULT_SETTINGS.AUTHENTICATION_BACKENDS + (
     # Object permissions using perm
     'perm.backends.ModelPermissionBackend',
 )
+
+ROOT_URLCONF = 'perm.tests.urls'

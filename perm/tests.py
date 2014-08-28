@@ -12,6 +12,10 @@ from .utils import get_model
 from .permissions import load_permissions
 
 
+# Dummy patterns to satisfy Django
+urlpatterns = ()
+
+
 class Person(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -20,7 +24,7 @@ class Person(models.Model):
         return user.is_staff
 
     def __unicode__(self):
-        return '{} {}'.format(self.first_name, self.last_name).strip()
+        return '{first_name} {last_name}'.format(first_name=self.first_name, last_name=self.last_name).strip()
 
 
 @permissions_for(Person)
