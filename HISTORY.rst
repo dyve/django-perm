@@ -4,6 +4,13 @@ History
 -------
 
 
+2.3.0 (2014-12-08)
+++++++++++++++++++
+
+* Made tests work in Django 1.7
+* Modified Travis matrix
+
+
 2.2.1 (2014-08-28)
 ++++++++++++++++++
 

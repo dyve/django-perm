@@ -27,3 +27,6 @@ AUTHENTICATION_BACKENDS = DEFAULT_SETTINGS.AUTHENTICATION_BACKENDS + (
 # Django < 1.6 complains if this is not set
 ROOT_URLCONF = 'perm.tests.urls'
 SITE_ID = 1
+
+# Django >= 1.7 complains if this is not set
+MIDDLEWARE_CLASSES = DEFAULT_SETTINGS.MIDDLEWARE_CLASSES

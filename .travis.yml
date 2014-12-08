@@ -6,14 +6,27 @@ python:
 
 # Django versions for matrix
 env:
-  - DJANGO_VERSION=1.4.13
-  - DJANGO_VERSION=1.5.8
-  - DJANGO_VERSION=1.6.5
+  - DJANGO_VERSION=1.4.16
+  - DJANGO_VERSION=1.5.11
+  - DJANGO_VERSION=1.6.8
+  - DJANGO_VERSION=1.7.1
 
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+# Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
-  - pip install -q Django==$DJANGO_VERSION --use-mirrors
+  - pip install -q Django==$DJANGO_VERSION --use-mirrors --quiet
+  - pip install coveralls
 
-# command to run tests, e.g. python setup.py test
+# Command to run tests, e.g. python setup.py test
 script:
-  - python manage.py test
+  - coverage run --source=perm manage.py test
+
+# Support Python3 only with Django 1.6+
+# Support Django 1.7+ only with Python 2.7+
+matrix:
+  exclude:
+    - python: "2.6"
+      env: DJANGO_VERSION=1.7.1
+
+# Report to coveralls
+after_success:
+  - coveralls
