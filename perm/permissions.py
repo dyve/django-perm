@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
 from perm.exceptions import PermAppException, PermQuerySetNotFound
-from perm.utils import get_model
+from perm.utils import get_model_for_perm
 
 
 class ModelPermissionsManager(object):
@@ -14,7 +14,7 @@ class ModelPermissionsManager(object):
     _registry = {}
 
     def register(self, model, permissions_class):
-        model = get_model(model)
+        model = get_model_for_perm(model)
         self._registry[model] = permissions_class
         return model
 
@@ -23,7 +23,7 @@ class ModelPermissionsManager(object):
         return permissions_class
 
     def get_permissions(self, model, user_obj, perm, obj=None, raise_exception=False):
-        model = get_model(model)
+        model = get_model_for_perm(model)
         permissions_checker_class = self._registry.get(model, None)
         if not permissions_checker_class:
             if raise_exception:

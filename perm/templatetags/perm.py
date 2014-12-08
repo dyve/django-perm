@@ -5,7 +5,7 @@ import re
 from django.db.models import Model
 from django.template import Library, Node, TemplateSyntaxError, Variable, VariableDoesNotExist
 
-from ..utils import get_model
+from ..utils import get_model_for_perm
 
 
 QUOTED_STRING = re.compile(r'^["\'](?P<noquotes>.+)["\']$')
@@ -53,7 +53,7 @@ def get_permission(tag, perm, obj_or_model, context):
     perm = handle_var(perm, context)
     model = handle_var(obj_or_model, context)
     if model and not isinstance(model, Model):
-        model = get_model(model, raise_exception=True)
+        model = get_model_for_perm(model, raise_exception=True)
     try:
         request = context['request']
     except IndexError:

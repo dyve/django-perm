@@ -1,12 +1,13 @@
 from __future__ import unicode_literals
 
-from django.db.models import Model, get_model as django_get_model
+from django.db.models import Model
+from django.db.models.loading import get_model
 from django.utils.translation import ugettext as _
 
 from .exceptions import PermAppException
 
 
-def get_model(model, raise_exception=False):
+def get_model_for_perm(model, raise_exception=False):
     if isinstance(model, basestring):
         # If model is a string, find the appropriate model class
         try:
@@ -14,7 +15,10 @@ def get_model(model, raise_exception=False):
         except ValueError:
             model_class = None
         else:
-            model_class = django_get_model(app_name, model_name)
+            try:
+                model_class = get_model(app_name, model_name)
+            except LookupError:
+                model_class = None
     else:
         # Assume we have been given a model class or instance
         model_class = model

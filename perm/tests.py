@@ -8,7 +8,7 @@ from django.db import models
 from .decorators import permissions_for
 from .permissions import ModelPermissions
 from .exceptions import PermAppException
-from .utils import get_model
+from .utils import get_model_for_perm
 from .permissions import load_permissions
 
 
@@ -64,9 +64,9 @@ def render_template(template, **context_args):
 class UtilsTest(TestCase):
     def test_get_model(self):
         with self.assertRaises(PermAppException):
-            get_model('does.NotExist', raise_exception=True)
-        self.assertEqual(None, get_model('does.NotExist', raise_exception=False))
-        self.assertEqual(Person, get_model('perm.Person', raise_exception=False))
+            get_model_for_perm('does.NotExist', raise_exception=True)
+        self.assertEqual(None, get_model_for_perm('does.NotExist', raise_exception=False))
+        self.assertEqual(Person, get_model_for_perm('perm.Person', raise_exception=False))
 
 
 class PermissionsTest(TestCase):
