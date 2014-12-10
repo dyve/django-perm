@@ -9,7 +9,7 @@ from .decorators import permissions_for
 from .permissions import ModelPermissions
 from .exceptions import PermAppException
 from .utils import get_model_for_perm
-from .permissions import load_permissions
+from .models import autodiscover
 
 
 # Dummy patterns to satisfy Django
@@ -40,7 +40,7 @@ class PersonPermissions(ModelPermissions):
 
 
 # Load permissions
-load_permissions()
+autodiscover()
 
 
 class MockRequest(object):
