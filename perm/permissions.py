@@ -47,7 +47,7 @@ class ModelPermissions(object):
         """
         Set the properties
         """
-        super(ModelPermissions, self).__init__(*args, **kwargs)
+        super(ModelPermissions, self).__init__()
         self.model = model
         self.user = user_obj
         self.obj = obj
