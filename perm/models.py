@@ -31,7 +31,7 @@ def autodiscover():
             # Decide whether to bubble up this error. If the app just
             # doesn't have an translation module, we can ignore the error
             # attempting to import it, otherwise we want it to bubble up.
-            if module_has_submodule(mod, 'translation'):
+            if module_has_submodule(mod, 'permissions'):
                 raise
 
 
