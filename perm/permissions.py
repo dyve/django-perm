@@ -47,7 +47,7 @@ class ModelPermissions(object):
         """
         Set the properties
         """
-        super(ModelPermissions, self).__init__(*args, **kwargs)
+        super(ModelPermissions, self).__init__()
         self.model = model
         self.user = user_obj
         self.obj = obj
@@ -90,23 +90,6 @@ class ModelPermissions(object):
         Test using direct method and queryset
         """
         return self._has_perm_using_method() or self._has_perm_using_queryset()
-
-
-def load_permissions():
-    """
-    This is called once from the ModelPermissionsMiddleware.__init__ to discover all permissions in all applications
-    """
-    try:
-        if load_permissions.done:
-            return
-    except AttributeError:
-        pass
-    load_permissions.done = True
-    for app in settings.INSTALLED_APPS:
-        try:
-            __import__('%s.permissions' % app)
-        except ImportError:
-            pass
 
 
 # Instantiate the singleton

@@ -4,6 +4,12 @@ History
 -------
 
 
+2.4.0 (2014-12-15)
+++++++++++++++++++
+
+* Isolated has_perm in PermSingleObjectMixin
+
+
 2.3.0 (2014-12-08)
 ++++++++++++++++++
 

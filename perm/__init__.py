@@ -1,2 +1,7 @@
-__version__ = '2.3.0'
+# -*- coding: utf-8 -*-
 
+__version__ = '2.4.0'
+
+# Default app config for Django 1.7+
+# See https://docs.djangoproject.com/en/dev/ref/applications/#configuring-applications
+default_app_config = 'perm.apps.PermConfig'
