@@ -81,9 +81,16 @@ class ModelPermissions(object):
         Test to see if obj appears in get_perm_PERM_queryset()
         """
         try:
-            return self.get_queryset().filter(pk=self.obj.pk).exists()
+            # Get the queryset
+            qs = self.get_queryset()
         except (AttributeError, PermQuerySetNotFound):
+            # If there is not queryset, no permission
             return False
+        # If looking for permission for a single object, filter on object.pk
+        if self.obj:
+            qs = qs.filter(pk=self.obj.pk)
+        # Grant permission if queryset is not empty
+        return qs.exists()
 
     def has_perm(self):
         """
