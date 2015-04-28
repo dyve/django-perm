@@ -10,6 +10,13 @@ History
 * Fixed bug in autodiscover
 
 
+2.5.0 (2015-04-28)
+++++++++++++++++++
+
+* Fix Django 1.8 deprecation warning
+* Improved stability of checking permission through get_queryset
+
+
 2.4.0 (2014-12-15)
 ++++++++++++++++++
 

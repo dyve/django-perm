@@ -1,8 +1,13 @@
 from __future__ import unicode_literals
 
 from django.db.models import Model
-from django.db.models.loading import get_model
 from django.utils.translation import ugettext as _
+
+try:
+    from django.apps import apps
+    get_model = apps.get_model
+except ImportError:
+    from django.db.models.loading import get_model
 
 from .exceptions import PermAppException
 
