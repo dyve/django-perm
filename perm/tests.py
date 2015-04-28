@@ -97,7 +97,7 @@ class PermissionsTest(TestCase):
         self.assertEqual(False, self.staff_user.has_perm(perm))
         self.assertEqual(False, self.staff_user.has_perm(perm, Person))
         self.assertEqual(False, self.staff_user.has_perm(perm, self.person))
-        # True for our normal user, since he is not named gamma
+        # True for our normal user, since he is named gamma
         self.assertEqual(False, self.normal_user.has_perm(perm))
         self.assertEqual(False, self.normal_user.has_perm(perm, Person))
         self.assertEqual(True, self.normal_user.has_perm(perm, self.person))
