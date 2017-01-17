@@ -19,10 +19,17 @@ INSTALLED_APPS = (
     'perm',
 )
 
-AUTHENTICATION_BACKENDS = DEFAULT_SETTINGS.AUTHENTICATION_BACKENDS + (
-    # Object permissions using perm
-    'perm.backends.ModelPermissionBackend',
-)
+try:
+    AUTHENTICATION_BACKENDS = DEFAULT_SETTINGS.AUTHENTICATION_BACKENDS + [
+        # Object permissions using perm
+        'perm.backends.ModelPermissionBackend',
+    ]
+except TypeError:
+    # Django < 1.9
+    AUTHENTICATION_BACKENDS = DEFAULT_SETTINGS.AUTHENTICATION_BACKENDS + (
+        # Object permissions using perm
+        'perm.backends.ModelPermissionBackend',
+    )
 
 # Django < 1.6 complains if this is not set
 ROOT_URLCONF = 'perm.tests.urls'
