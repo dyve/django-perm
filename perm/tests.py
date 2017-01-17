@@ -2,7 +2,11 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.template import Template, Context
-from django.utils.unittest import TestCase
+
+try:
+    from django.test import TestCase
+except ImportError:
+    from django.utils.unittest import TestCase
 from django.db import models
 
 from .decorators import permissions_for
@@ -10,7 +14,6 @@ from .permissions import ModelPermissions
 from .exceptions import PermAppException
 from .utils import get_model_for_perm
 from .models import autodiscover
-
 
 # Dummy patterns to satisfy Django
 urlpatterns = ()
@@ -111,6 +114,7 @@ class PermissionsTest(TestCase):
             result2 = render_template(template2, request=request, person=self.person)
             self.assertEqual(result1, result2)
             return result1
+
         self.assertEqual('alpha centauri', render_template('{{ person }}', request={'user': None}, person=self.person))
         self.assertEqual('True', _test_template(self.superuser, 'does_not_exist'))
         self.assertEqual('False', _test_template(self.staff_user, 'does_not_exist'))
@@ -124,6 +128,7 @@ class PermissionsTest(TestCase):
             request = get_request_for_user(user)
             result1 = render_template(template1, request=request, person=self.person)
             return result1
+
         self.assertEqual('True', _test_template(self.superuser, 'does_not_exist'))
         self.assertEqual('', _test_template(self.staff_user, 'does_not_exist'))
         self.assertEqual('True', _test_template(self.superuser, 'gamma'))
