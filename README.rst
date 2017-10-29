@@ -3,6 +3,11 @@ Class based permissions for Django models
 
 Simple class based permissions.
 
+DEPRECATION NOTICE
+------------------
+
+This project has been abandoned. There are better solutions out there, such as https://github.com/dfunckt/django-rules which we use ourselves these days.
+
 
 Installation
 ------------
